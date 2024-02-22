@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const GetAllUserAssignedAward = () => {
   const [userAssignedTasks, setUserAssignedTasks] = useState([]);
@@ -14,14 +15,11 @@ const GetAllUserAssignedAward = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/user-Assignaward",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/user-Assignaward", {
+          headers: {
+            token: token,
+          },
+        });
 
         setUserAssignedTasks(response.data);
         setErrorMessage("");

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllClasses = () => {
   const [classes, setClasses] = useState([]);
@@ -16,14 +17,11 @@ const GetAllClasses = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getallclass",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getallclass", {
+          headers: {
+            token: token,
+          },
+        });
 
         setClasses(response.data.data);
         setErrorMessage("");
@@ -47,7 +45,7 @@ const GetAllClasses = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/classdelete/${classId}`, {
+      await axios.delete(baseUrl + `/api/classdelete/${classId}`, {
         headers: {
           token: token,
         },

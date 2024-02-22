@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllRoles = () => {
   const [roles, setRoles] = useState([]);
@@ -16,14 +17,11 @@ const GetAllRoles = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getallroles",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getallroles", {
+          headers: {
+            token: token,
+          },
+        });
 
         setRoles(response.data.data);
         setErrorMessage("");
@@ -47,7 +45,7 @@ const GetAllRoles = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/roledelete/${roleId}`, {
+      await axios.delete(baseUrl + `/api/roledelete/${roleId}`, {
         headers: {
           token: token,
         },

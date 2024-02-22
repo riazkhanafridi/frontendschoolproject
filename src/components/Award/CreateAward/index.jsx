@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateAward = () => {
   const [image, setImage] = useState(null);
@@ -41,15 +42,11 @@ const CreateAward = () => {
         setErrorMessage("No token found.");
         return;
       }
-      const response = await axios.post(
-        "http://localhost:3000/api/award",
-        formData,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/api/award", formData, {
+        headers: {
+          token: token,
+        },
+      });
 
       setSuccessMessage("Award created successfully!");
       setErrorMessage("");

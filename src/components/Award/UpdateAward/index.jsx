@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateAward = () => {
   const { id } = useParams();
@@ -44,7 +45,7 @@ const UpdateAward = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:3000/api/award/${id}`,
+        baseUrl + `/api/award/${id}`,
         formDataToSend,
         {
           headers: {

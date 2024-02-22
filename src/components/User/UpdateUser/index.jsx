@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateUser = () => {
   const { id } = useParams();
@@ -11,6 +12,31 @@ const UpdateUser = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setErrorMessage("No token found.");
+          return;
+        }
+
+        const response = await axios.get(baseUrl + `/api/getuserinfo/${id}`, {
+          headers: {
+            token: token,
+          },
+        });
+
+        const { name, email } = response.data.user;
+        setUserData({ name, email });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setErrorMessage("Failed to fetch user data.");
+      }
+    };
+
+    fetchUser();
+  }, [id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;

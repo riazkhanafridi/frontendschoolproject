@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetStudentsAssigntoTeacher = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const GetStudentsAssigntoTeacher = () => {
       try {
         console.log("Teacher ID:", id);
         const response = await axios.get(
-          `http://localhost:3000/api/getstdassign-teacher/${id}`
+          baseUrl + `/api/getstdassign-teacher/${id}`
         );
 
         if (response.data.status === "success") {

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateRole = () => {
   const [roleData, setRoleData] = useState({ role_name: "" });
@@ -20,7 +21,7 @@ const UpdateRole = () => {
         return;
       }
       const response = await axios.patch(
-        `http://localhost:3000/api/roleupdate/${id}`,
+        baseUrl + `/api/roleupdate/${id}`,
         roleData,
         {
           headers: {

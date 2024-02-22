@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllSchoolsTeachers = () => {
   const [teachers, setTeachers] = useState([]);
@@ -8,7 +10,7 @@ const GetAllSchoolsTeachers = () => {
   useEffect(() => {
     const getTeachers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/teachers", {
+        const response = await axios.get(baseUrl + "/api/teachers", {
           headers: {
             token: localStorage.getItem("token"),
           },
@@ -35,22 +37,42 @@ const GetAllSchoolsTeachers = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto mt-8 text-center">
       <h2 className="text-2xl font-bold mb-4">Teachers List</h2>
       {error ? (
         <p>{error}</p>
       ) : teachers && teachers.length > 0 ? (
-        <ul className="list-disc pl-4">
-          {teachers.map((teacher) => (
-            <li key={teacher._id} className="mb-2">
-              <div className="bg-gray-200 p-4 rounded-md">
-                <p className="font-bold">{teacher.name}</p>
-                <p>Email: {teacher.email}</p>
-                <p>Role: {teacher.role_id?.role_name}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="border py-2 px-4">Name</th>
+              <th className="border py-2 px-4">Email</th>
+              <th className="border py-2 px-4">Role</th>
+              <th className="border py-2 px-4">
+                Get students Assign to Teacher
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {teachers.map((teacher) => (
+              <tr key={teacher._id}>
+                <td className="border py-2 px-4 font-bold">{teacher.name}</td>
+                <td className="border py-2 px-4">{teacher.email}</td>
+                <td className="border py-2 px-4">
+                  {teacher.role_id?.role_name}
+                </td>
+                <td className="border py-5 px-4">
+                  <Link
+                    to={`/get-stu-assignt-to-teacher/${teacher._id}`}
+                    className="bg-green-900 hover:bg-black text-white font-bold py-2 px-4 rounded ml-2"
+                  >
+                    Get students
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No teachers found.</p>
       )}

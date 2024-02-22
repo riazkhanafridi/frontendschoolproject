@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateComment = () => {
   const [comment, setComment] = useState("");
@@ -18,7 +19,7 @@ const CreateComment = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/comment",
+        baseUrl + "/api/comment",
         { text: comment, task_sol_id },
         {
           headers: {

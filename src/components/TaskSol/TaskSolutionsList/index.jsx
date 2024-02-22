@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const TaskSolutionsList = () => {
   const [taskSolutions, setTaskSolutions] = useState([]);
@@ -18,14 +19,11 @@ const TaskSolutionsList = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getAllTaskSolution",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getAllTaskSolution", {
+          headers: {
+            token: token,
+          },
+        });
 
         if (response.status === 200) {
           console.log("Task solutions fetched:", response.data);
@@ -51,7 +49,7 @@ const TaskSolutionsList = () => {
       }
 
       await axios.delete(
-        `http://localhost:3000/api/assignTaskdeletesolution/${solutionId}`,
+        baseUrl + `/api/assignTaskdeletesolution/${solutionId}`,
         {
           headers: {
             token: token,
@@ -74,7 +72,7 @@ const TaskSolutionsList = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 text-center">
       <h2 className="text-2xl font-bold mb-4">Task Solutions</h2>
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
       <table className="min-w-full bg-white border border-gray-200">
@@ -121,6 +119,25 @@ const TaskSolutionsList = () => {
                 >
                   Delete
                 </button>
+                <Link
+                  to={`/get-single-task-solutions/${solution._id}`}
+                  className="bg-green-500 py-2 px-2 ml-1"
+                >
+                  {" "}
+                  get-single-sol
+                </Link>
+                <Link
+                  to={`/create-approved-task/${solution._id}`}
+                  className="bg-green-500 py-2 px-2 ml-1"
+                >
+                  Approve Task Solution
+                </Link>
+                <Link
+                  to={`/create-reject-task/${solution._id}`}
+                  className="bg-green-500 py-2 px-2 ml-1"
+                >
+                  reject Task Solution
+                </Link>
               </td>
             </tr>
           ))}

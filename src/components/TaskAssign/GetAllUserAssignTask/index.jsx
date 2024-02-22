@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const GetAllUserAssignedTasks = () => {
   const [userAssignedTasks, setUserAssignedTasks] = useState([]);
@@ -15,7 +16,7 @@ const GetAllUserAssignedTasks = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:3000/api/getalluserassignTask",
+          baseUrl + "/api/getalluserassignTask",
           {
             headers: {
               token: token,
@@ -42,7 +43,9 @@ const GetAllUserAssignedTasks = () => {
   }
 
   if (userAssignedTasks.length === 0) {
-    return <p>No assigned tasks found for the user.</p>;
+    return (
+      <p className="text-center mt-10">No assigned tasks found for the user.</p>
+    );
   }
 
   return (

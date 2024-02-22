@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateClass = () => {
   const [classData, setClassData] = useState({ class_name: "" });
@@ -20,7 +21,7 @@ const UpdateClass = () => {
         return;
       }
       const response = await axios.patch(
-        `http://localhost:3000/api/classupdate/${id}`,
+        baseUrl`/api/classupdate/${id}`,
         classData,
         {
           headers: {

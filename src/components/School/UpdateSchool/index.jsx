@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateSchool = () => {
   const [schoolData, setSchoolData] = useState({ school_name: "" });
@@ -20,7 +21,7 @@ const UpdateSchool = () => {
         return;
       }
       const response = await axios.patch(
-        `http://localhost:3000/api/updateschool/${id}`,
+        baseUrl`/api/updateschool/${id}`,
         schoolData,
         {
           headers: {

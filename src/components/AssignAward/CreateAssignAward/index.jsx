@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateAssignAward = () => {
   const [message, setMessage] = useState("");
@@ -15,7 +16,7 @@ const CreateAssignAward = () => {
           return;
         }
         const response = await axios.post(
-          `http://localhost:3000/api/assignaward`,
+          baseUrl + `/api/assignaward`,
           {},
 
           {

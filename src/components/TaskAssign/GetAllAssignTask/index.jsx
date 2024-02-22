@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllAssignTasks = () => {
   const [assignTasks, setAssignTasks] = useState([]);
@@ -15,14 +16,11 @@ const GetAllAssignTasks = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getallassignTask",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getallassignTask", {
+          headers: {
+            token: token,
+          },
+        });
 
         setAssignTasks(response.data);
         setErrorMessage("");
@@ -46,14 +44,11 @@ const GetAllAssignTasks = () => {
         return;
       }
 
-      await axios.delete(
-        `http://localhost:3000/api/assignTaskdelete/${taskId}`,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      await axios.delete(baseUrl + `/api/assignTaskdelete/${taskId}`, {
+        headers: {
+          token: token,
+        },
+      });
 
       // Filter out the deleted assigned task from the assignTasks state
       setAssignTasks((prevAssignTasks) =>

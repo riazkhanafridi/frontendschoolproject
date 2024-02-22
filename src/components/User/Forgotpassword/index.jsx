@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { baseUrl } from "../../config";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
-  const baseUrl = "http://localhost:3000";
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
 
@@ -13,12 +15,10 @@ const ForgotPassword = () => {
         email,
       });
 
-      setStatus("Reset password link sent successfully!");
-
-      // You can redirect the user to another page or perform additional actions here
+      if (response.data.Status === "Success") {
+      }
     } catch (error) {
       console.error("Forgot password error:", error);
-
       setStatus("Error sending reset password link.");
     }
   };

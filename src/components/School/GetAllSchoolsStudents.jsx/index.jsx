@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const GetAllSchoolsStudents = () => {
   const [students, setStudents] = useState([]);
@@ -9,7 +10,7 @@ const GetAllSchoolsStudents = () => {
     const getStudents = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/api/students", {
+        const response = await axios.get(baseUrl + "/api/students", {
           headers: {
             token: token,
           },

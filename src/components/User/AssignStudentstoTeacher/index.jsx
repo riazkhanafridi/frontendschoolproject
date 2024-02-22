@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const AssignStudentstoTeacher = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const AssignStudentstoTeacher = () => {
       }
 
       const response = await axios.patch(
-        `http://localhost:3000/api/users/${id}/assign-teacher`,
+        baseUrl + `/api/users/${id}/assign-teacher`,
         { teacher_id: teacherId },
         {
           headers: {

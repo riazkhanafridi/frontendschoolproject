@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Loader from "../../Loader";
+import { baseUrl } from "../../config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,12 +10,15 @@ const Login = () => {
   const [roleId, setRoleId] = useState("");
   const [loginStatus, setLoginStatus] = useState({});
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await axios.post(baseUrl + "/api/login", {
         email,
         password,
         role_id: roleId,
@@ -54,7 +59,7 @@ const Login = () => {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 z-[999px]">
-        <div className="max-w-md w-full bg-blue-300 space-y-8">
+        <div className="max-w-md w-full  space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Login
@@ -93,7 +98,8 @@ const Login = () => {
 
             <button
               type="submit"
-              className="group w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4"
+              className="group w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4 relative"
+              onClick={handleLogin}
             >
               Login
             </button>

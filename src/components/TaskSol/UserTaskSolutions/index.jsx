@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UserTaskSolutions = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const UserTaskSolutions = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/api/user-task-solution/${id}`,
+          baseUrl + `/api/user-task-solution/${id}`,
           {
             headers: {
               token: token,
@@ -60,7 +61,7 @@ const UserTaskSolutions = () => {
           </ul>
         </>
       ) : (
-        <p>No task solutions found.</p>
+        <p>No task solutions found....</p>
       )}
       {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
     </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const GetAllAssignAwards = () => {
   const [awards, setAwards] = useState([]);
@@ -14,14 +15,11 @@ const GetAllAssignAwards = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:3000/api/assignaward`,
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + `/api/assignaward`, {
+          headers: {
+            token: token,
+          },
+        });
 
         setAwards(response.data);
         setErrorMessage("");

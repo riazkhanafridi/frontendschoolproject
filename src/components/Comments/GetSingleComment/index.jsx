@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetSingleComment = () => {
   const { id } = useParams();
@@ -15,14 +16,11 @@ const GetSingleComment = () => {
           setErrorMessage("No token found.");
           return;
         }
-        const response = await axios.get(
-          `http://localhost:3000/api/comment/${id}`,
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + `/api/comment/${id}`, {
+          headers: {
+            token: token,
+          },
+        });
 
         setComment(response.data.data);
         setErrorMessage("");

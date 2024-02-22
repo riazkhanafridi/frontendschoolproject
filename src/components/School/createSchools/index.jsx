@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateSchools = () => {
   const [name, setName] = useState("");
@@ -27,7 +28,7 @@ const CreateSchools = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/school",
+        baseUrl + "/api/school",
         {
           name,
           school_name,

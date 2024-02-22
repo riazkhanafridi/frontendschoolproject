@@ -1,6 +1,7 @@
 // CreateClass.js
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateRole = () => {
   const [RoleName, setRoleName] = useState("");
@@ -16,7 +17,7 @@ const CreateRole = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/role",
+        baseUrl + "/api/role",
         { role_name: RoleName },
         {
           headers: {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetSingleAward = () => {
   const { id } = useParams();
@@ -17,14 +18,11 @@ const GetSingleAward = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:3000/api/award/${id}`,
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + `/api/award/${id}`, {
+          headers: {
+            token: token,
+          },
+        });
 
         setAward(response.data);
         setErrorMessage("");

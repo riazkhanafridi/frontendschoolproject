@@ -1,31 +1,27 @@
 // ResetPassword.js
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [status, setStatus] = useState("");
+
   const { token } = useParams(); // Use useParams to get the token from the URL
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/reset-password/${token}`,
-        {
-          newPassword,
-        }
+        baseUrl + `/api/reset-password/${token}`,
+        { newPassword }
       );
-
-      setStatus(response.data.message);
-
-      // You can redirect the user to another page or perform additional actions here
+      navigate("/login");
     } catch (error) {
       console.error("Reset password error:", error);
-
       setStatus("Failed to reset password.");
     }
   };

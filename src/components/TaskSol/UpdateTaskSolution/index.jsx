@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateTaskSolution = () => {
   const [file, setFile] = useState(null);
@@ -24,7 +25,7 @@ const UpdateTaskSolution = () => {
       formData.append("image", file);
 
       const response = await axios.patch(
-        `http://localhost:3000/api/assignTaskupdatesolution/${id}`,
+        baseUrl + `/api/assignTaskupdatesolution/${id}`,
         formData,
         {
           headers: {

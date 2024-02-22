@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const SubmitTaskSolution = () => {
   const [title, setTitle] = useState("");
@@ -32,7 +33,7 @@ const SubmitTaskSolution = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/assigntasksolution",
+        baseUrl + "/api/assigntasksolution",
         formData,
         {
           headers: {

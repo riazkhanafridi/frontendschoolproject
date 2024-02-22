@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetSingleTask = () => {
   const [task, setTask] = useState(null);
@@ -17,14 +18,11 @@ const GetSingleTask = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:3000/api/getSingleTask/${id}`,
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + `/api/getSingleTask/${id}`, {
+          headers: {
+            token: token,
+          },
+        });
 
         setTask(response.data);
         setErrorMessage("");

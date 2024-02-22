@@ -35,10 +35,7 @@ import SubmitTaskSolution from "./components/TaskSol/SubmitTaskSolution/index.js
 import TaskSolutionsList from "./components/TaskSol/TaskSolutionsList/index.jsx";
 import SingleTaskSolution from "./components/TaskSol/SingleTaskSolution/index.jsx";
 import UserTaskSolutions from "./components/TaskSol/UserTaskSolutions/index.jsx";
-import TaskSolutionApproval from "./components/TaskSol/TaskSolutionApproval/index.jsx";
-import UsersApprovedTaskSolutions from "./components/TaskSol/UsersApprovedTaskSolutions/index.jsx";
-import TaskSolutionRejection from "./components/TaskSol/TaskSolutionRejection/index.jsx";
-import UsersRejectedTaskSolutions from "./components/TaskSol/GetUsersRejectedTaskSolutions/index.jsx";
+
 import UpdateTaskSolution from "./components/TaskSol/UpdateTaskSolution/index.jsx";
 import CreateAward from "./components/Award/CreateAward/index.jsx";
 import GetSingleAward from "./components/Award/GetSingleAward/index.jsx";
@@ -55,22 +52,33 @@ import GetAllComments from "./components/Comments/GetAllComments/index.jsx";
 import UpdateComment from "./components/Comments/UpdateComment/index.jsx";
 
 import Header from "./components/Header/index.jsx";
-import { useParams } from "react-router-dom";
+
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import GetApproveTask from "./components/TaskSol/getApproveTask/index.jsx";
+import ApproveTaskSolution from "./components/TaskSol/ApproveTaskSolution/index.jsx";
+import GetRejectTask from "./components/TaskSol/getRejectTask/index.jsx";
+import RejectTaskSolution from "./components/TaskSol/rejectTaskSolution/index.jsx";
 
 function App() {
-  const { id } = useParams();
   return (
     <div className="App">
       <BrowserRouter>
-        <Header teacherId={id} />
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forget-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/users-list" element={<UserList />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route
+            path="/users-list"
+            element={
+              <ProtectedRoute>
+                <UserList />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/user-detail/:id" element={<UserDetail />} />
           <Route path="/user-update/:id" element={<UpdateUser />} />
 
@@ -82,27 +90,111 @@ function App() {
             path="/get-stu-assignt-to-teacher/:id"
             element={<GetStudentsAssigntoTeacher />}
           />
-          <Route path="/create-school" element={<CreateSchools />} />
-          <Route path="/get-schools" element={<GetAllSchools />} />
-          <Route path="/get-all-teachers" element={<GetAllSchoolsTeachers />} />
-          <Route path="/get-all-students" element={<GetAllSchoolsStudents />} />
+          <Route
+            path="/create-school"
+            element={
+              <ProtectedRoute>
+                <CreateSchools />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-schools"
+            element={
+              <ProtectedRoute>
+                <GetAllSchools />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-all-teachers"
+            element={
+              <ProtectedRoute>
+                <GetAllSchoolsTeachers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-all-students"
+            element={
+              <ProtectedRoute>
+                <GetAllSchoolsStudents />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/update-school/:id" element={<UpdateSchool />} />
-          <Route path="/create-class" element={<CreateClass />} />
-          <Route path="/get-class" element={<GetAllClasses />} />
+
+          <Route
+            path="/create-class"
+            element={
+              <ProtectedRoute>
+                <CreateClass />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-class"
+            element={
+              <ProtectedRoute>
+                <GetAllClasses />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/update-class/:id" element={<UpdateClass />} />
-          <Route path="/create-role" element={<CreateRole />} />
-          <Route path="/get-role" element={<GetRole />} />
+
+          <Route
+            path="/create-role"
+            element={
+              <ProtectedRoute>
+                <CreateRole />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-role"
+            element={
+              <ProtectedRoute>
+                <GetRole />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/update-role/:id" element={<UpdateRole />} />
 
-          <Route path="/create-task" element={<TaskCreate />} />
-          <Route path="/get-tasks" element={<GetAllTasks />} />
+          <Route
+            path="/create-task"
+            element={
+              <ProtectedRoute>
+                <TaskCreate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-tasks"
+            element={
+              <ProtectedRoute>
+                <GetAllTasks />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/get-single-task/:id" element={<GetSingleTask />} />
           <Route path="/update-task/:id" element={<UpdateTask />} />
+
           <Route path="/assign-task/" element={<AssignTask />} />
-          <Route path="/get-all-assign-task/" element={<GetAllAssignTasks />} />
+          <Route
+            path="/get-all-assign-task/"
+            element={
+              <ProtectedRoute>
+                <GetAllAssignTasks />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/get-all-user-assign-task/"
-            element={<GetAllUserAssignedTasks />}
+            element={
+              <ProtectedRoute>
+                <GetAllUserAssignedTasks />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/get-single-assign-task/:id"
@@ -117,8 +209,35 @@ function App() {
             element={<UpdateAssignTask />}
           />
 
-          <Route path="/submit" element={<SubmitTaskSolution />} />
-          <Route path="/get-all-solutions" element={<TaskSolutionsList />} />
+          <Route
+            path="/submit"
+            element={
+              <ProtectedRoute>
+                <SubmitTaskSolution />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-all-solutions"
+            element={
+              <ProtectedRoute>
+                <TaskSolutionsList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/get-user-approved-task/:id"
+            element={<GetApproveTask />}
+          />
+          <Route
+            path="/create-approved-task/:id"
+            element={<ApproveTaskSolution />}
+          />
+          <Route path="/get-user-reject-task/:id" element={<GetRejectTask />} />
+          <Route
+            path="/create-reject-task/:id"
+            element={<RejectTaskSolution />}
+          />
           <Route
             path="/get-single-task-solutions/:id"
             element={<SingleTaskSolution />}
@@ -127,27 +246,25 @@ function App() {
             path="/get-user-task-solutions/:id"
             element={<UserTaskSolutions />}
           />
-          <Route
-            path="/approval-task-solutions/:id"
-            element={<TaskSolutionApproval />}
-          />
-          <Route
-            path="/user-approval-task-solutions/:id"
-            element={<UsersApprovedTaskSolutions />}
-          />
-          <Route
-            path="/reject-task-solutions/:id"
-            element={<TaskSolutionRejection />}
-          />
-          <Route
-            path="/get-reject-task-solutions/:id"
-            element={<UsersRejectedTaskSolutions />}
-          />
           <Route path="/update-sol-task/:id" element={<UpdateTaskSolution />} />
 
-          <Route path="/create-award" element={<CreateAward />} />
+          <Route
+            path="/create-award"
+            element={
+              <ProtectedRoute>
+                <CreateAward />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/get-award/:id" element={<GetSingleAward />} />
-          <Route path="/get-all-awards" element={<GetAllAwards />} />
+          <Route
+            path="/get-all-awards"
+            element={
+              <ProtectedRoute>
+                <GetAllAwards />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/update-award/:id" element={<UpdateAward />} />
 
           <Route path="/create-assign-award" element={<CreateAssignAward />} />
@@ -160,12 +277,26 @@ function App() {
             path="/get-user-assign-award"
             element={<GetAllUserAssignedAward />}
           />
-          <Route path="/create-comment" element={<CreateComment />} />
+          <Route
+            path="/create-comment"
+            element={
+              <ProtectedRoute>
+                <CreateComment />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/get-single-comment/:id"
             element={<GetSingleComment />}
           />
-          <Route path="/get-all-comments" element={<GetAllComments />} />
+          <Route
+            path="/get-all-comments"
+            element={
+              <ProtectedRoute>
+                <GetAllComments />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/update-comment/:id" element={<UpdateComment />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetSingleAssignTask = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const GetSingleAssignTask = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/api/getSingleAssignTask/${id}`,
+          baseUrl + `/api/getSingleAssignTask/${id}`,
           {
             headers: {
               token: token,

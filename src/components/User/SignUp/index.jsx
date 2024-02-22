@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/signup", {
+      await axios.post(baseUrl + "/api/signup", {
         name,
         email,
         password,

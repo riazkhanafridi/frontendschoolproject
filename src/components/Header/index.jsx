@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute";
 
 const Header = () => {
+  const { id } = useParams();
+  const isLoggedIn = localStorage.getItem("token");
   const [dropdowns, setDropdowns] = useState({
     role: false,
     class: false,
@@ -12,8 +15,12 @@ const Header = () => {
     solution: false,
     award: false,
     assignAward: false,
-    user: false,
+    users: false,
   });
+
+  console.log(id);
+
+  const navigate = useNavigate();
 
   const toggleDropdownRole = () => {
     setDropdowns((prevDropdowns) => ({
@@ -178,220 +185,265 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-blue-500 h-[10vh]">
-      <div className="container mx-auto px-4 py-2 h-full ">
-        <ul className="flex space-x-4 absolute h-[10vh] ">
-          <li>
-            <Link to="/" className="text-white hover:text-gray-200">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownRole}
-              >
-                Roles
-              </button>
-              {dropdowns.role && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-role" className="dropdown-item">
-                    Create Role
-                  </Link>
-                  <Link to="/get-role" className="dropdown-item">
-                    Get Role
-                  </Link>
-                </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownClass}
-              >
-                Classes
-              </button>
-              {dropdowns.class && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-class" className="dropdown-item">
-                    Create Class
-                  </Link>
-                  <Link to="/get-class" className="dropdown-item">
-                    Get Class
-                  </Link>
-                </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownTask}
-              >
-                Tasks
-              </button>
-              {dropdowns.task && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-task" className="dropdown-item">
-                    Create Task
-                  </Link>
-                  <Link to="/get-tasks" className="dropdown-item">
-                    Get Task
-                  </Link>
-                </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownAssignTask}
-              >
-                Assign Task
-              </button>
-              {dropdowns.assignTask && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/assign-task" className="dropdown-item">
-                    Assign Task
-                  </Link>
+    <>
+      {isLoggedIn && (
+        <nav className="bg-blue-500 h-[10vh]">
+          <div className="container mx-auto flex  justify-between px-4 py-2 h-full ">
+            <ul className="flex items-center space-x-4 h-full ">
+              <li>
+                <Link to="/" className="text-white hover:text-gray-200">
+                  <span> Home</span>
+                </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownRole}
+                  >
+                    <span> Roles</span>
+                  </button>
+                  {dropdowns.role && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-role" className="dropdown-item">
+                        Create Role
+                      </Link>
 
-                  <Link to="/get-all-assign-task" className="dropdown-item">
-                    Get Assigned Tasks
-                  </Link>
+                      <Link to="/get-role" className="dropdown-item">
+                        Get Role
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownSchool}
-              >
-                Schools
-              </button>
-              {dropdowns.school && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-school" className="dropdown-item">
-                    Create School
-                  </Link>
-                  <Link to="/get-schools" className="dropdown-item">
-                    Get School
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownClass}
+                  >
+                    <span> Classes</span>
+                  </button>
+                  {dropdowns.class && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-class" className="dropdown-item">
+                        Create Class
+                      </Link>
+
+                      <Link to="/get-class" className="dropdown-item">
+                        Get Class
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownComment}
-              >
-                Comments
-              </button>
-              {dropdowns.comment && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-comment" className="dropdown-item">
-                    Create Comment
-                  </Link>
-                  <Link to="/get-all-comments" className="dropdown-item">
-                    Get All Comments
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownTask}
+                  >
+                    <span> Tasks</span>
+                  </button>
+                  {dropdowns.task && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-task" className="dropdown-item">
+                        Create Task
+                      </Link>
+
+                      <Link to="/get-tasks" className="dropdown-item">
+                        Get Task
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownSolution}
-              >
-                Solutions
-              </button>
-              {dropdowns.solution && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/submit" className="dropdown-item">
-                    Create Solution
-                  </Link>
-                  <Link to="/get-all-solutions" className="dropdown-item">
-                    Get All Solutions
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownAssignTask}
+                  >
+                    <span> Assign Task</span>
+                  </button>
+                  {dropdowns.assignTask && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/assign-task" className="dropdown-item">
+                        Assign Task
+                      </Link>
+
+                      <Link to="/get-all-assign-task" className="dropdown-item">
+                        Get Assigned Tasks
+                      </Link>
+
+                      <Link
+                        to="/get-all-user-assign-task"
+                        className="dropdown-item"
+                      >
+                        Get All User Assigned Tasks
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownAward}
-              >
-                Awards
-              </button>
-              {dropdowns.award && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-award" className="dropdown-item">
-                    Create Award
-                  </Link>
-                  <Link to="/get-all-awards" className="dropdown-item">
-                    Get All Awards
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownSchool}
+                  >
+                    <span> Schools</span>
+                  </button>
+                  {dropdowns.school && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-school" className="dropdown-item">
+                        Create School
+                      </Link>
+
+                      <Link to="/get-schools" className="dropdown-item">
+                        Get School
+                      </Link>
+
+                      <Link to="/get-all-teachers" className="dropdown-item">
+                        Get Teachers
+                      </Link>
+
+                      <Link to="/get-all-students" className="dropdown-item">
+                        Get Students
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownAssignAward}
-              >
-                Assign Award
-              </button>
-              {dropdowns.assignAward && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/create-assign-award" className="dropdown-item">
-                    Assign Award
-                  </Link>
-                  <Link to="/get-assign-award" className="dropdown-item">
-                    Get All Assigned Awards
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownComment}
+                  >
+                    <span> Comments</span>
+                  </button>
+                  {dropdowns.comment && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-comment" className="dropdown-item">
+                        Create Comment
+                      </Link>
+
+                      <Link to="/get-all-comments" className="dropdown-item">
+                        Get All Comments
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <div className="dropdown">
-              <button
-                className="dropbtn text-white hover:text-gray-200"
-                onClick={toggleDropdownUsers}
-              >
-                Users
-              </button>
-              {dropdowns.users && (
-                <div className="dropdown-content flex flex-col bg-white">
-                  <Link to="/users-list" className="dropdown-item">
-                    Get All Users
-                  </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownSolution}
+                  >
+                    <span> Solutions</span>
+                  </button>
+                  {dropdowns.solution && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/submit" className="dropdown-item">
+                        Create Solution
+                      </Link>
+
+                      <Link to="/get-all-solutions" className="dropdown-item">
+                        Get All Solutions
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div className="flex justify-end text-center">
-        <Link to="/login" className="text-white hover:text-gray-200">
-          Login
-        </Link>
-      </div>
-    </nav>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownAward}
+                  >
+                    <span> Awards</span>
+                  </button>
+                  {dropdowns.award && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-award" className="dropdown-item">
+                        Create Award
+                      </Link>
+                      <Link to="/get-all-awards" className="dropdown-item">
+                        Get All Awards
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownAssignAward}
+                  >
+                    <span> Assign Award</span>
+                  </button>
+                  {dropdowns.assignAward && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/create-assign-award" className="dropdown-item">
+                        Assign Award
+                      </Link>
+
+                      <Link to="/get-assign-award" className="dropdown-item">
+                        Get All Assigned Awards
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </li>
+              <li className="nav-item dropdown">
+                <div className="dropdown">
+                  <button
+                    className="dropbtn text-white hover:text-gray-200"
+                    onClick={toggleDropdownUsers}
+                  >
+                    <span>Users</span>
+                  </button>
+                  {dropdowns.users && (
+                    <div className="dropdown-content flex flex-col bg-white absolute">
+                      <Link to="/users-list" className="dropdown-item">
+                        Get All Users
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div className="flex items-center">
+                  {!isLoggedIn ? (
+                    <Link
+                      to="/login"
+                      className="text-white hover:text-gray-200"
+                    >
+                      Login
+                    </Link>
+                  ) : (
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                      }}
+                    >
+                      Log Out
+                    </div>
+                  )}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const SingleTaskSolution = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const SingleTaskSolution = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/api/getSingleTaskSolution/${id}`,
+          baseUrl + `/api/getSingleTaskSolution/${id}`,
           {
             headers: {
               token: token,

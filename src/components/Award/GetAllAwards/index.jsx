@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllAwards = () => {
   const [awards, setAwards] = useState([]);
@@ -15,7 +16,7 @@ const GetAllAwards = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/api/award", {
+        const response = await axios.get(baseUrl + "/api/award", {
           headers: {
             token: token,
           },
@@ -44,7 +45,7 @@ const GetAllAwards = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/award/${awardId}`, {
+      await axios.delete(baseUrl + `/api/award/${awardId}`, {
         headers: {
           token: token,
         },

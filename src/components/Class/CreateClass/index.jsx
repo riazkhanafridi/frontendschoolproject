@@ -1,6 +1,7 @@
 // CreateClass.js
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const CreateClass = () => {
   const [className, setClassName] = useState("");
@@ -16,7 +17,7 @@ const CreateClass = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/class",
+        baseUrl + "/api/class",
         { class_name: className },
         {
           headers: {

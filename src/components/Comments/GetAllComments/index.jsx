@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllComments = () => {
   const [comments, setComments] = useState([]);
@@ -15,14 +16,11 @@ const GetAllComments = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getallcomments",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getallcomments", {
+          headers: {
+            token: token,
+          },
+        });
 
         setComments(response.data);
         setErrorMessage("");
@@ -47,14 +45,11 @@ const GetAllComments = () => {
         return;
       }
 
-      await axios.delete(
-        `http://localhost:3000/api/deletecomment/${commentId}`,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      await axios.delete(baseUrl + `/api/deletecomment/${commentId}`, {
+        headers: {
+          token: token,
+        },
+      });
 
       // Filter out the deleted comment from the comments state
       setComments((prevComments) =>
@@ -120,7 +115,7 @@ const GetAllComments = () => {
               </td>
               <Link
                 to={`/get-single-comment/${comment._id}`}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 m-4"
               >
                 commentDetail
               </Link>

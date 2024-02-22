@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -15,14 +16,11 @@ const GetAllTasks = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:3000/api/getalltasks",
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getalltasks", {
+          headers: {
+            token: token,
+          },
+        });
 
         setTasks(response.data.data);
         setErrorMessage("");
@@ -46,7 +44,7 @@ const GetAllTasks = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/deletetask/${taskId}`, {
+      await axios.delete(baseUrl + `/api/deletetask/${taskId}`, {
         headers: {
           token: token,
         },
@@ -102,6 +100,12 @@ const GetAllTasks = () => {
                   >
                     Delete
                   </button>
+                  <Link
+                    to={`/get-single-task/${task._id}`}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2"
+                  >
+                    Task Detail
+                  </Link>
                 </td>
               </tr>
             ))}

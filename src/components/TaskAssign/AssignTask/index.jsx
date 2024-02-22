@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const AssignTask = () => {
   const [classId, setClassId] = useState("");
@@ -18,7 +19,7 @@ const AssignTask = () => {
       }
 
       await axios.post(
-        "http://localhost:3000/api/assignTask",
+        baseUrl + "/api/assignTask",
         {
           class_id: classId,
           task_id: taskId,

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UpdateAssignTask = () => {
   const [AssignTask, setassigned_at] = useState({
@@ -22,7 +23,7 @@ const UpdateAssignTask = () => {
         return;
       }
       const response = await axios.patch(
-        `http://localhost:3000/api/assignTaskupdate/${id}`,
+        baseUrl + `/api/assignTaskupdate/${id}`,
         AssignTask,
         {
           headers: {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -46,14 +47,11 @@ const UserList = () => {
         throw new Error("No token found.");
       }
 
-      const response = await axios.delete(
-        `http://localhost:3000/api/delete/${id}`,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      const response = await axios.delete(baseUrl + `/api/delete/${id}`, {
+        headers: {
+          token: token,
+        },
+      });
 
       const { status } = response.data;
 
@@ -107,6 +105,24 @@ const UserList = () => {
                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2"
                   >
                     User Detail
+                  </Link>
+                  <Link
+                    to={`/get-user-task-solutions/${user._id}`}
+                    className="dropdown-item bg-green-500 ml-2 py-2 px-4 hover:bg-green-600 rounded"
+                  >
+                    Get All Users solution task
+                  </Link>
+                  <Link
+                    to={`/get-user-approved-task/${user._id}`}
+                    className="dropdown-item bg-green-500 ml-2 py-2 px-4 hover:bg-green-600 rounded"
+                  >
+                    Get All Users Approve solution task
+                  </Link>
+                  <Link
+                    to={`/get-user-reject-task/${user._id}`}
+                    className="dropdown-item bg-green-500 ml-2 py-2 px-4 hover:bg-green-600 rounded"
+                  >
+                    Get All Users Reject solution task
                   </Link>
                 </td>
               </tr>

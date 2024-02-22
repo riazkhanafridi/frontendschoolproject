@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
-const GetAllSchoolAssignedTask = ({ schoolId }) => {
+const GetAllSchoolAssignedTask = () => {
   const { id } = useParams();
   const [schoolAssignedTasks, setSchoolAssignedTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,14 +18,15 @@ const GetAllSchoolAssignedTask = ({ schoolId }) => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/api/getallschoolassignTask/${id}`,
+          baseUrl + `/api/getallschoolassignTask/${id}`,
+
           {
             headers: {
               token: token,
             },
           }
         );
-
+        console.log(response.data);
         setSchoolAssignedTasks(response.data);
         setErrorMessage("");
       } catch (error) {
@@ -37,7 +39,7 @@ const GetAllSchoolAssignedTask = ({ schoolId }) => {
     };
 
     fetchSchoolAssignedTasks();
-  }, [schoolId]);
+  }, []);
 
   if (errorMessage) {
     return <p className="text-red-500">{errorMessage}</p>;
@@ -53,7 +55,7 @@ const GetAllSchoolAssignedTask = ({ schoolId }) => {
       <ul>
         {schoolAssignedTasks.map((assignTask) => (
           <li key={assignTask._id} className="mb-4">
-            <div className="bg-gray-200 p-4 rounded-md">
+            <div className="text-white bg-gray-500 p-4 rounded-md">
               <h3>title: {assignTask.task_id.title}</h3>
               <p>Description: {assignTask.task_id.description}</p>
               {/* Display other assign task details as needed */}

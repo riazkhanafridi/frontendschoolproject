@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../../config";
 
 const GetAllSchools = () => {
   const [schools, setSchools] = useState([]);
@@ -43,7 +44,7 @@ const GetAllSchools = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/deleteschool/${schoolId}`, {
+      await axios.delete(baseUrl`/api/deleteschool/${schoolId}`, {
         headers: {
           token: token,
         },
@@ -94,6 +95,12 @@ const GetAllSchools = () => {
                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2"
                   >
                     Edit
+                  </Link>
+                  <Link
+                    to={`/get-all-school-assign-task/${school._id}`}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2"
+                  >
+                    get-all-school-assign-task
                   </Link>
                   <button
                     onClick={() => handleDelete(school._id)}

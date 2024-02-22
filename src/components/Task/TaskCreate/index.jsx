@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../../config";
 
 const TaskCreate = () => {
   const [task, setTask] = useState({
@@ -19,15 +20,11 @@ const TaskCreate = () => {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:3000/api/task",
-        task,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/api/task", task, {
+        headers: {
+          token: token,
+        },
+      });
 
       console.log("Task created:", response.data);
       setSuccessMessage("task created successfully!");

@@ -5,6 +5,7 @@ import { baseUrl } from "../../config";
 
 const TaskSolutionsList = () => {
   const [taskSolutions, setTaskSolutions] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -39,6 +40,66 @@ const TaskSolutionsList = () => {
 
     fetchTaskSolutions();
   }, []);
+  const handleApprove = async (solutionId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setErrorMessage("No token found.");
+        return;
+      }
+
+      await axios.patch(
+        baseUrl + `/api/approved-task-solution/${solutionId}`,
+        null,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+
+      // Set the success message after approving the task solution
+      setSuccessMessage("Task approved successfully.");
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Error approving task solution:", error);
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Failed to approve task solution. Please try again later."
+      );
+      setSuccessMessage("");
+    }
+  };
+  const handleReject = async (solutionId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setErrorMessage("No token found.");
+        return;
+      }
+
+      await axios.patch(
+        baseUrl + `/api/reject-task-solution/${solutionId}`,
+        null,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+
+      // Set the success message after approving the task solution
+      setSuccessMessage("Task reject successfully.");
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Error reject task solution:", error);
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Failed to reject task solution. Please try again later."
+      );
+      setSuccessMessage("");
+    }
+  };
 
   const handleDelete = async (solutionId) => {
     try {
@@ -75,6 +136,7 @@ const TaskSolutionsList = () => {
     <div className="container mx-auto p-4 text-center">
       <h2 className="text-2xl font-bold mb-4">Task Solutions</h2>
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr>
@@ -121,23 +183,24 @@ const TaskSolutionsList = () => {
                 </button>
                 <Link
                   to={`/get-single-task-solutions/${solution._id}`}
-                  className="bg-green-500 py-2 px-2 ml-1"
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 ml-1"
                 >
                   {" "}
                   get-single-sol
                 </Link>
-                <Link
-                  to={`/create-approved-task/${solution._id}`}
-                  className="bg-green-500 py-2 px-2 ml-1"
+
+                <button
+                  onClick={() => handleApprove(solution._id)}
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-2"
                 >
-                  Approve Task Solution
-                </Link>
-                <Link
-                  to={`/create-reject-task/${solution._id}`}
-                  className="bg-green-500 py-2 px-2 ml-1"
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleReject(solution._id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-2"
                 >
-                  reject Task Solution
-                </Link>
+                  Reject
+                </button>
               </td>
             </tr>
           ))}

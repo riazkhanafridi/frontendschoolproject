@@ -5,19 +5,18 @@ import { baseUrl } from "../../config";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/getallusers",
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios.get(baseUrl + "/api/getallusers", {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        });
+        setUsers(response.data.data);
+        setErrorMessage("");
 
         console.log(response.data); // Check the API response data
 
@@ -26,11 +25,12 @@ const UserList = () => {
         if (status === "success") {
           setUsers(data);
         } else {
+          setUsers([]);
           throw new Error("Error fetching users");
         }
       } catch (error) {
         console.error("Error fetching users:", error);
-        setError(
+        setErrorMessage(
           error.response?.data?.message ||
             "Error fetching users. Please try again later."
         );
@@ -44,24 +44,24 @@ const UserList = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error("No token found.");
+        setErrorMessage("No token found.");
+        return;
       }
 
-      const response = await axios.delete(baseUrl + `/api/delete/${id}`, {
+      await axios.delete(baseUrl + `/api/delete/${id}`, {
         headers: {
           token: token,
         },
       });
 
-      const { status } = response.data;
-
-      if (status === "success") {
-        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-      } else {
-        throw new Error("Failed to delete user.");
-      }
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      setErrorMessage("");
     } catch (error) {
       console.error("Error deleting user:", error);
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Failed to delete user. Please try again later."
+      );
     }
   };
 
@@ -70,8 +70,8 @@ const UserList = () => {
       <h2 className="text-2xl font-bold mb-4 text-white text-center bg-gray-900 ">
         User List
       </h2>
-      {error ? (
-        <p>{error}</p>
+      {errorMessage ? (
+        <p>{errorMessage}</p>
       ) : users && users.length > 0 ? (
         <table className="min-w-full">
           <thead>

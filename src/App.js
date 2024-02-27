@@ -55,9 +55,8 @@ import Header from "./components/Header/index.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import GetApproveTask from "./components/TaskSol/getApproveTask/index.jsx";
-import ApproveTaskSolution from "./components/TaskSol/ApproveTaskSolution/index.jsx";
+
 import GetRejectTask from "./components/TaskSol/getRejectTask/index.jsx";
-import RejectTaskSolution from "./components/TaskSol/rejectTaskSolution/index.jsx";
 
 function App() {
   return (
@@ -229,15 +228,9 @@ function App() {
             path="/get-user-approved-task/:id"
             element={<GetApproveTask />}
           />
-          <Route
-            path="/create-approved-task/:id"
-            element={<ApproveTaskSolution />}
-          />
+
           <Route path="/get-user-reject-task/:id" element={<GetRejectTask />} />
-          <Route
-            path="/create-reject-task/:id"
-            element={<RejectTaskSolution />}
-          />
+
           <Route
             path="/get-single-task-solutions/:id"
             element={<SingleTaskSolution />}

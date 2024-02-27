@@ -32,9 +32,13 @@ const UserDetail = () => {
         );
 
         console.log(response.data); // Log the API response data
-
-        setStudent(response.data.user);
-        setLoading(false);
+        if (response.data.status === "success") {
+          setStudent(response.data.user);
+          setLoading(false);
+        } else {
+          setError("Failed to fetch student info.");
+          setLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching student info:", error);
         setError("Error fetching student info. Please try again later.");

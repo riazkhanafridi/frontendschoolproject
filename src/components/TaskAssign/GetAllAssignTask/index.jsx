@@ -95,9 +95,9 @@ const GetAllAssignTasks = () => {
         <tbody>
           {assignTasks.map((assignTask) => (
             <tr key={assignTask._id} className="border-b border-gray-200">
-              <td className="py-3 px-4">{assignTask.std_id.name}</td>
-              <td className="py-3 px-4">{assignTask.task_id.title}</td>
-              <td className="py-3 px-4">{assignTask.task_id.description}</td>
+              <td className="py-3 px-4">{assignTask.std_id?.name}</td>
+              <td className="py-3 px-4">{assignTask.task_id?.title}</td>
+              <td className="py-3 px-4">{assignTask.task_id?.description}</td>
               <td className="py-3 px-4">
                 <Link
                   to={`/update-assign-task/${assignTask._id}`}
